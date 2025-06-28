@@ -1,4 +1,4 @@
-#inndef __FILEUTIL__
+#ifndef __FILEUTIL__
 #define __FILEUTIL__
 #include <iostream>
 #include <fstream>
@@ -13,10 +13,7 @@ namespace file_sp
 	class fileUtil
 	{
 	public:
-		fileUtil(const std::string name)
-		{
-
-		}
+		fileUtil(const std::string name) : _name(name) {}
 
 		bool Exists()
 		{
@@ -56,7 +53,7 @@ namespace file_sp
 
 			int fsize = this->FileSize();
 			content->resize(fsize);
-			ifs.read(&(*content)[0], flen); // @@@注意此处参数
+			ifs.read(&(*content)[0], fsize); // @@@注意此处参数
 			if(ifs.good() == false)
 			{
 				std::cout << "read file content failed" << std::endl;
@@ -67,20 +64,20 @@ namespace file_sp
 			return true;
 		}
 
-        bool SetContent(const std::strint content) // 将数据content写入文件
+        bool SetContent(const std::string content) // 将数据content写入文件
 		{
 			std::ofstream ofs(_name, std::ios::binary);
-			if(ifs.is_open() == false) 
+			if(ofs.is_open() == false) 
 			{
                  std::cout << "open file:"  << _name << "failed" << std::endl;
 				 return false;
 			}
 
 			ofs.write(content.c_str(), content.size()); // 注意此处参数类型
-			if(ifs.good() == false)
+			if(ofs.good() == false)
 			{
 				std::cout << "read file content failed" << std::endl;
-				ifs.close();
+				ofs.close();
 				return false;
 			}
 			ofs.close();
